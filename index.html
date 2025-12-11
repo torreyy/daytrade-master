@@ -1,0 +1,1545 @@
+<!-- Strict industry standard: HTML5, responsive, accessible, mobile first layout -->
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Explorer Lab</title>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .app-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #2a2a3e;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    h1 {
+      color: #4ecca3;
+      font-size: 2rem;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #4ecca3;
+      font-size: 1.5rem;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      color: #93e4c1;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p,
+    li {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .card {
+      background: #353549;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #444458;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      background: #4ecca3;
+      color: #1a1a2e;
+    }
+
+    .btn-primary:hover {
+      background: #45b892;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(78, 204, 163, 0.3);
+    }
+
+    .btn-secondary {
+      background: #5dade2;
+      color: #1a1a2e;
+    }
+
+    .btn-secondary:hover {
+      background: #4a9dd1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(93, 173, 226, 0.3);
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+
+    .btn:disabled {
+      background: #555;
+      color: #888;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .tag-info {
+      background: #5dade2;
+      color: #1a1a2e;
+    }
+
+    .tag-success {
+      background: #4ecca3;
+      color: #1a1a2e;
+    }
+
+    .tag-warning {
+      background: #f39c12;
+      color: #1a1a2e;
+    }
+
+    .tag-locked {
+      background: #95a5a6;
+      color: #1a1a2e;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 24px;
+      background: #444458;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4ecca3 0%, #45b892 100%);
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a1a2e;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .level-item {
+      background: #353549;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border: 1px solid #444458;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .level-info {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .level-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #4ecca3;
+      margin-bottom: 5px;
+    }
+
+    .level-desc {
+      font-size: 0.9rem;
+      color: #b0b0b0;
+      margin: 0;
+    }
+
+    .level-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quiz-question {
+      background: #444458;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .quiz-question p {
+      margin-top: 0;
+      font-weight: 600;
+      color: #93e4c1;
+    }
+
+    .quiz-option {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .quiz-option input {
+      margin-right: 8px;
+    }
+
+    .quiz-option label {
+      cursor: pointer;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #444458;
+      background: #444458;
+      color: #e0e0e0;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: flex-start;
+      margin: 15px 0;
+      padding: 15px;
+      background: #444458;
+      border-radius: 8px;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 12px;
+      margin-top: 4px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .checkbox-container label {
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .error-message {
+      background: #e74c3c;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-weight: 500;
+    }
+
+    .success-message {
+      background: #4ecca3;
+      color: #1a1a2e;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-weight: 500;
+    }
+
+    .info-message {
+      background: #5dade2;
+      color: #1a1a2e;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-weight: 500;
+    }
+
+    .stats-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 150px;
+      background: #444458;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #b0b0b0;
+      margin-bottom: 5px;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4ecca3;
+    }
+
+    .agreement-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .agreement-list li {
+      background: #444458;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      padding-left: 40px;
+      position: relative;
+    }
+
+    .agreement-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 15px;
+      color: #4ecca3;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .radio-option {
+      display: block;
+      background: #444458;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .radio-option:hover {
+      border-color: #4ecca3;
+    }
+
+    .radio-option input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .radio-option.selected {
+      border-color: #4ecca3;
+      background: #3d3d51;
+    }
+
+    .account-summary {
+      background: #3d3d51;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border-left: 4px solid #4ecca3;
+    }
+
+    .practice-box {
+      background: #444458;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .price-display {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #4ecca3;
+      margin: 15px 0;
+    }
+
+    .scenario-text {
+      font-size: 1.1rem;
+      margin: 15px 0;
+      color: #e0e0e0;
+    }
+
+    .practice-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .feedback-box {
+      background: #3d3d51;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .streak-counter {
+      background: #4ecca3;
+      color: #1a1a2e;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      display: inline-block;
+      margin: 10px 0;
+    }
+
+    @media (max-width: 600px) {
+      .app-container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .level-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .level-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+      }
+
+      .stats-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+  <style>
+    @view-transition { navigation: auto; }
+  </style>
+ </head>
+ <body>
+  <div class="app-container">
+   <!-- Landing Screen -->
+   <div id="landing-screen" class="screen active">
+    <h1>Market Explorer Lab</h1>
+    <div class="card">
+     <p>Welcome to a safe place to learn how markets move. This lab is designed to help you understand basic market ideas through patience, discipline, and calm thinking.</p>
+     <p><strong>Important:</strong> No real money is used here. We only use pretend training money. This lab is not about making quick profits or getting rich. It is about learning to think clearly and make careful choices.</p>
+     <p>The goal is to build good habits: patience to wait, discipline to follow rules, and the calm to make smart choices even when things feel uncertain.</p>
+    </div>
+    <div class="card">
+     <h3>What You Will Learn</h3>
+     <div>
+      <span class="tag tag-info">Patience</span>
+      <span class="tag tag-info">Discipline</span>
+      <span class="tag tag-info">Calm Choices</span>
+      <span class="tag tag-info">Market Basics</span>
+     </div>
+    </div>
+    <button class="btn btn-primary" onclick="showScreen('dashboard')">Enter the Lab</button>
+   </div>
+
+   <!-- Dashboard Screen -->
+   <div id="dashboard-screen" class="screen">
+    <h1>Explorer Dashboard</h1>
+    <p>See your progress and choose a level to work on.</p>
+    <div class="card">
+     <h3>Your Progress</h3>
+     <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill" style="width: 0%">
+       0/7
+      </div>
+     </div>
+     <div class="stats-container">
+      <div class="stat-card">
+       <div class="stat-label">Highest Level Unlocked</div>
+       <div id="highest-level-display" class="stat-value">0</div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-label">Discipline Points</div>
+       <div id="discipline-points-display" class="stat-value">0</div>
+      </div>
+     </div>
+    </div>
+    <div class="card">
+     <h3>Levels</h3>
+     <div id="levels-container"></div>
+    </div>
+    <button class="btn btn-secondary" onclick="showScreen('landing')">Back to Welcome</button>
+   </div>
+
+   <!-- Level 0: Orientation Room -->
+   <div id="level-0-screen" class="screen">
+    <h1>Level 0: Orientation Room</h1>
+    <div class="card">
+     <h3>What This Lab Is</h3>
+     <ul>
+      <li>A safe place to practice and learn.</li>
+      <li>A lab to learn by thinking carefully.</li>
+      <li>A place to build patience and focus.</li>
+     </ul>
+    </div>
+    <div class="card">
+     <h3>What This Lab Is Not</h3>
+     <ul>
+      <li>Not a promise to make real money.</li>
+      <li>Not a place to rush or guess.</li>
+      <li>Not a signal service or shortcut.</li>
+     </ul>
+    </div>
+    <div class="card">
+     <h3>Explorer Agreement</h3>
+     <ul class="agreement-list">
+      <li>I will not treat this like a game to chase fast money.</li>
+      <li>I will read and think before I click.</li>
+      <li>I accept that mistakes are part of learning.</li>
+     </ul>
+     <div class="checkbox-container">
+      <input type="checkbox" id="level0-agreement">
+      <label for="level0-agreement">I have read this and I agree to use this lab to learn with care.</label>
+     </div>
+    </div>
+    <div id="level0-message"></div>
+    <div>
+     <button class="btn btn-primary" onclick="completeLevel0()">Save and Return to Dashboard</button>
+     <button class="btn btn-secondary" onclick="showScreen('dashboard')">Cancel and Return</button>
+    </div>
+   </div>
+
+   <!-- Level 1: Market Basics Zone -->
+   <div id="level-1-screen" class="screen">
+    <h1>Level 1: Market Basics Zone</h1>
+    <div class="card">
+     <h3>Understanding Markets</h3>
+     <p><strong>Market:</strong> A place where people trade things. It could be fruit, books, or pieces of companies.</p>
+     <p><strong>Stock:</strong> A small piece of a company. When you own stock, you own a tiny part of that company.</p>
+     <p><strong>Buyer:</strong> A person who pays money to get something they want.</p>
+     <p><strong>Seller:</strong> A person who gives something up in return for money.</p>
+     <p><strong>Price:</strong> The number where buyers and sellers agree.</p>
+     <p><strong>Supply and Demand:</strong> If more people want to buy than sell, price can move up. If more people want to sell than buy, price can move down.</p>
+    </div>
+    <div class="card">
+     <h3>Quiz</h3>
+     <div class="quiz-question">
+      <p>1. What is a stock?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l1q1a" name="l1q1" value="a">
+       <label for="l1q1a">A type of money</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l1q1b" name="l1q1" value="b">
+       <label for="l1q1b">A small piece of ownership in a company</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l1q1c" name="l1q1" value="c">
+       <label for="l1q1c">A place to shop</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>2. When more people want to buy than sell, what can happen to price?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l1q2a" name="l1q2" value="a">
+       <label for="l1q2a">It usually moves up</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l1q2b" name="l1q2" value="b">
+       <label for="l1q2b">It stays exactly the same</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l1q2c" name="l1q2" value="c">
+       <label for="l1q2c">It always goes down</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>3. Who is the buyer?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l1q3a" name="l1q3" value="a">
+       <label for="l1q3a">The one who gives up an item</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l1q3b" name="l1q3" value="b">
+       <label for="l1q3b">The one who pays money to get the item</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l1q3c" name="l1q3" value="c">
+       <label for="l1q3c">The person who sets the price</label>
+      </div>
+     </div>
+     <button class="btn btn-secondary btn-small" onclick="checkLevel1Quiz()">Check My Answers</button>
+     <div id="level1-quiz-feedback"></div>
+    </div>
+    <div class="card">
+     <h3>Reflection</h3>
+     <p>In your own words, what is one thing about markets that stands out to you?</p>
+     <textarea id="level1-reflection" placeholder="Type your thoughts here..."></textarea>
+    </div>
+    <div id="level1-message"></div>
+    <div>
+     <button class="btn btn-primary" onclick="completeLevel1()">Save and Return to Dashboard</button>
+     <button class="btn btn-secondary" onclick="showScreen('dashboard')">Cancel and Return</button>
+    </div>
+   </div>
+
+   <!-- Level 2: Trading vs Investing Fork -->
+   <div id="level-2-screen" class="screen">
+    <h1>Level 2: Trading vs Investing Fork</h1>
+    <div class="card">
+     <h3>Two Different Paths</h3>
+     <p><strong>Trading:</strong> This is short term. Traders buy and sell quickly, sometimes in minutes or hours. It takes more screen time, creates higher stress, and needs very strict rules.</p>
+     <p><strong>Investing:</strong> This is long term. Investors hold their choices for months or even years. It is based on slow goals like saving for college or retirement.</p>
+     <p><strong>Time Frames:</strong> Trading uses minutes and hours. Investing uses months and years. Mixing short and long term goals can confuse your plan.</p>
+     <div class="info-message">
+      <strong>Important Warning:</strong> Trading is very difficult. Learning about it does not mean you should rush into it with real money.
+     </div>
+    </div>
+    <div class="card">
+     <h3>Quiz</h3>
+     <div class="quiz-question">
+      <p>1. Which one is long term?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l2q1a" name="l2q1" value="a">
+       <label for="l2q1a">Trading</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l2q1b" name="l2q1" value="b">
+       <label for="l2q1b">Investing</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>2. Which one uses very short time frames like minutes and hours?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l2q2a" name="l2q2" value="a">
+       <label for="l2q2a">Trading</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l2q2b" name="l2q2" value="b">
+       <label for="l2q2b">Investing</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>3. Why can mixing short and long term goals be a problem?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l2q3a" name="l2q3" value="a">
+       <label for="l2q3a">It makes your plan clearer</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l2q3b" name="l2q3" value="b">
+       <label for="l2q3b">It can confuse your plan and make it harder to succeed</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l2q3c" name="l2q3" value="c">
+       <label for="l2q3c">It has no effect at all</label>
+      </div>
+     </div>
+     <button class="btn btn-secondary btn-small" onclick="checkLevel2Quiz()">Check My Answers</button>
+     <div id="level2-quiz-feedback"></div>
+    </div>
+    <div class="card">
+     <h3>Reflection</h3>
+     <p>Which style sounds closer to your natural style, and why?</p>
+     <textarea id="level2-reflection" placeholder="Type your thoughts here..."></textarea>
+    </div>
+    <div id="level2-message"></div>
+    <div>
+     <button class="btn btn-primary" onclick="completeLevel2()">Save and Return to Dashboard</button>
+     <button class="btn btn-secondary" onclick="showScreen('dashboard')">Cancel and Return</button>
+    </div>
+   </div>
+
+   <!-- Level 3: Chart City -->
+   <div id="level-3-screen" class="screen">
+    <h1>Level 3: Chart City</h1>
+    <div class="card">
+     <h3>Reading Charts Without Stress</h3>
+     <p><strong>What is a chart?</strong> A chart shows price over time.</p>
+     <p><strong>Candles:</strong> Each candle shows open, high, low, and close.</p>
+     <p><strong>Green candle:</strong> Often shows price moved up during that time period.</p>
+     <p><strong>Red candle:</strong> Often shows price moved down during that time period.</p>
+     <p><strong>Trend:</strong> A clear move up or down over time.</p>
+     <p><strong>Sideways movement:</strong> When price moves in a small range without going clearly up or down.</p>
+    </div>
+    <div class="card">
+     <h3>Quiz</h3>
+     <div class="quiz-question">
+      <p>1. What does a green candle often mean?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l3q1a" name="l3q1" value="a">
+       <label for="l3q1a">Price moved down</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l3q1b" name="l3q1" value="b">
+       <label for="l3q1b">Price moved up</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l3q1c" name="l3q1" value="c">
+       <label for="l3q1c">Price stayed the same</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>2. What is a trend?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l3q2a" name="l3q2" value="a">
+       <label for="l3q2a">A clear move up or down over time</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l3q2b" name="l3q2" value="b">
+       <label for="l3q2b">A single candle</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l3q2c" name="l3q2" value="c">
+       <label for="l3q2c">The color of a chart</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>3. What does sideways movement mean?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l3q3a" name="l3q3" value="a">
+       <label for="l3q3a">Price is moving in a small range without going clearly up or down</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l3q3b" name="l3q3" value="b">
+       <label for="l3q3b">Price is crashing</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l3q3c" name="l3q3" value="c">
+       <label for="l3q3c">Price is skyrocketing</label>
+      </div>
+     </div>
+     <button class="btn btn-secondary btn-small" onclick="checkLevel3Quiz()">Check My Answers</button>
+     <div id="level3-quiz-feedback"></div>
+    </div>
+    <div class="card">
+     <h3>Reflection</h3>
+     <p>Do you like looking at charts, or do they feel confusing right now? Write one sentence.</p>
+     <textarea id="level3-reflection" placeholder="Type your thoughts here..."></textarea>
+    </div>
+    <div id="level3-message"></div>
+    <div>
+     <button class="btn btn-primary" onclick="completeLevel3()">Save and Return to Dashboard</button>
+     <button class="btn btn-secondary" onclick="showScreen('dashboard')">Cancel and Return</button>
+    </div>
+   </div>
+
+   <!-- Level 4: Risk Ridge -->
+   <div id="level-4-screen" class="screen">
+    <h1>Level 4: Risk Ridge</h1>
+    <div class="card">
+     <h3>Understanding Risk and Protection</h3>
+     <p><strong>What is risk?</strong> Risk is how much you can lose on a choice.</p>
+     <p><strong>No one wins all the time.</strong> Even the the best traders and investors make mistakes.</p>
+     <p><strong>Stop loss:</strong> A stop loss is a plan to get out if price goes too far the wrong way.</p>
+     <p><strong>Protecting your account:</strong> Your training account is like a garden. You have to take care of it.</p>
+     <div class="info-message">
+      <strong>Remember:</strong> It is better to stay small and safe than big and scared. Start with small risks as you learn.
+     </div>
+    </div>
+    <div class="card">
+     <h3>Quiz</h3>
+     <div class="quiz-question">
+      <p>1. What is risk?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l4q1a" name="l4q1" value="a">
+       <label for="l4q1a">How much you can win</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l4q1b" name="l4q1" value="b">
+       <label for="l4q1b">How much you can lose on a choice</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l4q1c" name="l4q1" value="c">
+       <label for="l4q1c">A type of chart</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>2. What is the job of a stop loss?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l4q2a" name="l4q2" value="a">
+       <label for="l4q2a">To make you more money</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l4q2b" name="l4q2" value="b">
+       <label for="l4q2b">To get you out if price goes too far the wrong way</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l4q2c" name="l4q2" value="c">
+       <label for="l4q2c">To help you guess the future</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>3. Which is more important?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l4q3a" name="l4q3" value="a">
+       <label for="l4q3a">Chasing one big win</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l4q3b" name="l4q3" value="b">
+       <label for="l4q3b">Protecting your account</label>
+      </div>
+     </div>
+     <button class="btn btn-secondary btn-small" onclick="checkLevel4Quiz()">Check My Answers</button>
+     <div id="level4-quiz-feedback"></div>
+    </div>
+    <div class="card">
+     <h3>Reflection</h3>
+     <p>Write one rule you would give yourself to stay safe with risk.</p>
+     <textarea id="level4-reflection" placeholder="Type your thoughts here..."></textarea>
+    </div>
+    <div id="level4-message"></div>
+    <div>
+     <button class="btn btn-primary" onclick="completeLevel4()">Save and Return to Dashboard</button>
+     <button class="btn btn-secondary" onclick="showScreen('dashboard')">Cancel and Return</button>
+    </div>
+   </div>
+
+   <!-- Level 5: Simulation Bay -->
+   <div id="level-5-screen" class="screen">
+    <h1>Level 5: Simulation Bay (Training Accounts)</h1>
+    <div class="card">
+     <h3>Choose Your Training Account</h3>
+     <p>Here you will choose a pretend training account. These are not real dollars. They are training dollars to help you practice discipline and rules.</p>
+     <div class="info-message">
+      <strong>Remember:</strong> These numbers are for practice and learning discipline. They are not for real trading.
+     </div>
+    </div>
+    <div class="card">
+     <h3>Training Account Options</h3>
+     <label class="radio-option" onclick="selectAccount('small')">
+      <input type="radio" name="training-account" value="small" id="account-small">
+      <div>
+       <strong>Small Account: $500 training dollars</strong>
+       <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Best for beginners learning the basics.</p>
+      </div>
+     </label>
+     <label class="radio-option" onclick="selectAccount('medium')">
+      <input type="radio" name="training-account" value="medium" id="account-medium">
+      <div>
+       <strong>Medium Account: $5,000 training dollars</strong>
+       <p style="margin: 5px 0 0 0; font-size: 0.9rem;">For students with more practice.</p>
+      </div>
+     </label>
+     <label class="radio-option" onclick="selectAccount('large')">
+      <input type="radio" name="training-account" value="large" id="account-large">
+      <div>
+       <strong>Large Account: $25,000 training dollars</strong>
+       <p style="margin: 5px 0 0 0; font-size: 0.9rem;">For advanced practice and testing strategies.</p>
+      </div>
+     </label>
+     <div id="account-summary" style="display: none;" class="account-summary">
+      <h4 style="margin-top: 0; color: #4ecca3;">Account Rules</h4>
+      <p id="account-details"></p>
+     </div>
+    </div>
+    <div class="card">
+     <h3>Quiz</h3>
+     <div class="quiz-question">
+      <p>1. Why is a small account useful for learning?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l5q1a" name="l5q1" value="a">
+       <label for="l5q1a">It helps you focus on rules and discipline without feeling scared about big numbers</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l5q1b" name="l5q1" value="b">
+       <label for="l5q1b">It makes you rich faster</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l5q1c" name="l5q1" value="c">
+       <label for="l5q1c">Small accounts are not useful</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>2. What is a daily loss limit?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l5q2a" name="l5q2" value="a">
+       <label for="l5q2a">The most money you should risk losing in one day</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l5q2b" name="l5q2" value="b">
+       <label for="l5q2b">How much you must win every day</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l5q2c" name="l5q2" value="c">
+       <label for="l5q2c">The number of trades you can make</label>
+      </div>
+     </div>
+     <div class="quiz-question">
+      <p>3. Why do rules matter even in pretend practice?</p>
+      <div class="quiz-option">
+       <input type="radio" id="l5q3a" name="l5q3" value="a">
+       <label for="l5q3a">They do not matter because it is pretend</label>
+      </div>
+      <div class="quiz-option">
+       <input type="radio" id="l5q3b" name="l5q3" value="b">
+       <label for="l5q3b">Rules help you build good habits and discipline that protect you</label>
+      </div>
+     </div>
+     <button class="btn btn-secondary btn-small" onclick="checkLevel5Quiz()">Check My Answers</button>
+     <div id="level5-quiz-feedback"></div>
+    </div>
+    <div class="card">
+     <h3>Reflection</h3>
+     <p>Which training account would you start with and why?</p>
+     <textarea id="level5-reflection" placeholder="Type your thoughts here..."></textarea>
+    </div>
+    <div id="level5-message"></div>
+    <div>
+     <button class="btn btn-primary" onclick="completeLevel5()">Save and Return to Dashboard</button>
+     <button class="btn btn-secondary" onclick="showScreen('dashboard')">Cancel and Return</button>
+    </div>
+   </div>
+
+   <!-- Level 6: Replay Arena and Reflection Loft -->
+   <div id="level-6-screen" class="screen">
+    <h1>Level 6: Replay Arena and Reflection Loft</h1>
+    <div class="card">
+     <h3>Simple Practice Time</h3>
+     <p>This is a very simple replay practice. You will see short, made up price moves and choose to "Buy", "Sell", or "Wait".</p>
+     <p><strong>Remember:</strong> The goal is not to win money. The goal is to follow rules and think calmly. Sometimes the best choice is to wait and do nothing.</p>
+    </div>
+    <div class="practice-box">
+     <h3>Practice Scenario</h3>
+     <div class="price-display" id="current-price">$100.00</div>
+     <div class="scenario-text" id="scenario-description">Click "Start Practice" to begin</div>
+     <div class="practice-buttons">
+      <button class="btn btn-primary" id="buy-btn" onclick="makeChoice('buy')" disabled>Buy</button>
+      <button class="btn btn-secondary" id="sell-btn" onclick="makeChoice('sell')" disabled>Sell</button>
+      <button class="btn btn-secondary" id="wait-btn" onclick="makeChoice('wait')" disabled>Wait</button>
+     </div>
+     <button class="btn btn-primary" id="start-practice-btn" onclick="startPractice()">Start Practice</button>
+     <div class="feedback-box" id="practice-feedback">Make your choice above</div>
+     <div class="streak-counter" id="streak-display" style="display: none;">Calm Choice Streak: 0</div>
+     <p id="scenario-counter" style="margin-top: 10px; color: #b0b0b0;">Scenarios completed: 0/3</p>
+    </div>
+    <div class="card">
+     <h3>Your Trading Journal</h3>
+     <p>Reflection is an important part of learning. Write about what you noticed in your practice.</p>
+     <p><strong>Prompt:</strong> What did you notice about your choices today?</p>
+     <textarea id="level6-journal" placeholder="Did you feel rushed? Did you wait when uncertain? What patterns did you see?"></textarea>
+    </div>
+    <div id="level6-message"></div>
+    <div>
+     <button class="btn btn-primary" onclick="completeLevel6()">Save and Return to Dashboard</button>
+     <button class="btn btn-secondary" onclick="showScreen('dashboard')">Cancel and Return</button>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    // App state
+    let appState = {
+      highestLevelUnlocked: 0,
+      disciplinePoints: 0,
+      completedLevels: {
+        0: false,
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false
+      }
+    };
+
+    // Level data
+    const levels = [
+      { id: 0, name: "Orientation Room", description: "Learn what this lab is about and make your agreement." },
+      { id: 1, name: "Market Basics Zone", description: "Understand markets, stocks, buyers, sellers, and prices." },
+      { id: 2, name: "Trading vs Investing Fork", description: "Learn the difference between short and long term approaches." },
+      { id: 3, name: "Chart City", description: "Read charts without stress and understand trends." },
+      { id: 4, name: "Risk Ridge", description: "Learn about risk, protection, and stop losses." },
+      { id: 5, name: "Simulation Bay", description: "Choose training accounts and understand practice rules." },
+      { id: 6, name: "Replay Arena", description: "Practice with simple scenarios and keep a journal." }
+    ];
+
+    // Practice scenarios for Level 6
+    const practiceScenarios = [
+      { price: 100, description: "Price has moved up three steps and is now slowing down.", safeChoices: ['wait', 'sell'] },
+      { price: 97, description: "Price has dropped two steps and is now sitting still.", safeChoices: ['wait'] },
+      { price: 103, description: "Price jumped up quickly but now looks shaky.", safeChoices: ['wait', 'sell'] },
+      { price: 95, description: "Price fell fast and is still dropping.", safeChoices: ['wait'] },
+      { price: 101, description: "Price is moving in a small range, up and down slowly.", safeChoices: ['wait'] }
+    ];
+
+    let currentScenarioIndex = 0;
+    let scenariosCompleted = 0;
+    let calmStreak = 0;
+    let practiceStarted = false;
+
+    // Load state from localStorage
+    function loadState() {
+      const saved = localStorage.getItem('marketExplorerState');
+      if (saved) {
+        appState = JSON.parse(saved);
+      }
+    }
+
+    // Save state to localStorage
+    function saveState() {
+      localStorage.setItem('marketExplorerState', JSON.stringify(appState));
+    }
+
+    // Show screen
+    function showScreen(screenName) {
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+      const target = document.getElementById(screenName + '-screen');
+      if (target) {
+        target.classList.add('active');
+      }
+      if (screenName === 'dashboard') {
+        updateDashboard();
+      }
+    }
+
+    // Update dashboard
+    function updateDashboard() {
+      const progressPercent = ((appState.highestLevelUnlocked + 1) / 7) * 100;
+      const progressFill = document.getElementById('progress-fill');
+      progressFill.style.width = progressPercent + '%';
+      progressFill.textContent = (appState.highestLevelUnlocked + 1) + '/7';
+
+      document.getElementById('highest-level-display').textContent = appState.highestLevelUnlocked;
+      document.getElementById('discipline-points-display').textContent = appState.disciplinePoints;
+
+      renderLevels();
+    }
+
+    // Render levels list
+    function renderLevels() {
+      const container = document.getElementById('levels-container');
+      container.innerHTML = '';
+
+      levels.forEach(level => {
+        const isUnlocked = level.id <= appState.highestLevelUnlocked;
+        const isCompleted = appState.completedLevels[level.id];
+
+        const levelItem = document.createElement('div');
+        levelItem.className = 'level-item';
+        levelItem.innerHTML = `
+          <div class="level-info">
+            <div class="level-title">Level ${level.id}: ${level.name}</div>
+            <p class="level-desc">${level.description}</p>
+          </div>
+          <div class="level-actions">
+            <span class="tag ${isUnlocked ? 'tag-success' : 'tag-locked'}">
+              ${isUnlocked ? 'Unlocked' : 'Locked'}
+            </span>
+            ${isCompleted ? '<span class="tag tag-info">Completed</span>' : ''}
+            <button class="btn btn-primary btn-small" onclick="enterLevel(${level.id})" ${!isUnlocked ? 'disabled' : ''}>
+              Enter
+            </button>
+          </div>
+        `;
+        container.appendChild(levelItem);
+      });
+    }
+
+    // Enter level
+    function enterLevel(levelId) {
+      if (levelId > appState.highestLevelUnlocked) {
+        showMessage('level' + levelId, 'This level is locked. Please finish the level before it.', 'error');
+        return;
+      }
+      showScreen('level-' + levelId);
+
+      // Reset Level 6 practice state when entering
+      if (levelId === 6) {
+        resetLevel6Practice();
+      }
+    }
+
+    // Show message helper
+    function showMessage(elementId, message, type) {
+      const messageDiv = document.getElementById(elementId + '-message');
+      if (!messageDiv) return;
+      messageDiv.innerHTML = `<div class="${type}-message">${message}</div>`;
+      setTimeout(() => {
+        messageDiv.innerHTML = '';
+      }, 5000);
+    }
+
+    // Level 0: Complete
+    function completeLevel0() {
+      const checkbox = document.getElementById('level0-agreement');
+      if (!checkbox.checked) {
+        showMessage('level0', 'Please check the box to show you have read the agreement. Take your time.', 'error');
+        return;
+      }
+
+      appState.completedLevels[0] = true;
+      appState.disciplinePoints += 10;
+      if (appState.highestLevelUnlocked < 1) {
+        appState.highestLevelUnlocked = 1;
+      }
+      saveState();
+      showMessage('level0', 'Great job. You completed the Orientation Room and earned 10 discipline points.', 'success');
+      setTimeout(() => showScreen('dashboard'), 1500);
+    }
+
+    // Level 1: Check quiz
+    let level1QuizChecked = false;
+    function checkLevel1Quiz() {
+      const q1 = document.querySelector('input[name="l1q1"]:checked');
+      const q2 = document.querySelector('input[name="l1q2"]:checked');
+      const q3 = document.querySelector('input[name="l1q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        document.getElementById('level1-quiz-feedback').innerHTML =
+          '<div class="info-message">Please answer all questions first. Take your time.</div>';
+        return;
+      }
+
+      const correct1 = q1.value === 'b';
+      const correct2 = q2.value === 'a';
+      const correct3 = q3.value === 'b';
+
+      const allCorrect = correct1 && correct2 && correct3;
+
+      if (allCorrect) {
+        document.getElementById('level1-quiz-feedback').innerHTML =
+          '<div class="success-message">Great job. You got all the answers right.</div>';
+      } else {
+        document.getElementById('level1-quiz-feedback').innerHTML =
+          '<div class="info-message">It is fine to be unsure. Reading again can help. You can try the quiz again if you want to.</div>';
+      }
+
+      level1QuizChecked = true;
+    }
+
+    function completeLevel1() {
+      if (!level1QuizChecked) {
+        showMessage('level1', 'Please check your quiz answers first. Good job taking your time.', 'error');
+        return;
+      }
+
+      const reflection = document.getElementById('level1-reflection').value.trim();
+      if (reflection.length < 10) {
+        showMessage('level1', 'Please write at least one sentence before you save. Your thoughts matter.', 'error');
+        return;
+      }
+
+      appState.completedLevels[1] = true;
+      appState.disciplinePoints += 15;
+      if (appState.highestLevelUnlocked < 2) {
+        appState.highestLevelUnlocked = 2;
+      }
+      saveState();
+      showMessage('level1', 'Excellent work. You completed Market Basics Zone and earned 15 discipline points.', 'success');
+      setTimeout(() => showScreen('dashboard'), 1500);
+    }
+
+    // Level 2: Check quiz
+    let level2QuizChecked = false;
+    function checkLevel2Quiz() {
+      const q1 = document.querySelector('input[name="l2q1"]:checked');
+      const q2 = document.querySelector('input[name="l2q2"]:checked');
+      const q3 = document.querySelector('input[name="l2q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        document.getElementById('level2-quiz-feedback').innerHTML =
+          '<div class="info-message">Please answer all questions first. Take your time.</div>';
+        return;
+      }
+
+      const correct1 = q1.value === 'b';
+      const correct2 = q2.value === 'a';
+      const correct3 = q3.value === 'b';
+
+      const allCorrect = correct1 && correct2 && correct3;
+
+      if (allCorrect) {
+        document.getElementById('level2-quiz-feedback').innerHTML =
+          '<div class="success-message">Great job. All answers are correct.</div>';
+      } else {
+        document.getElementById('level2-quiz-feedback').innerHTML =
+          '<div class="info-message">It is fine to be unsure. Reading again can help. You can try the quiz again if you want to.</div>';
+      }
+
+      level2QuizChecked = true;
+    }
+
+    function completeLevel2() {
+      if (!level2QuizChecked) {
+        showMessage('level2', 'Please check your quiz answers first. Good job taking your time.', 'error');
+        return;
+      }
+
+      const reflection = document.getElementById('level2-reflection').value.trim();
+      if (reflection.length < 10) {
+        showMessage('level2', 'Please write at least one sentence before you save. Your thoughts matter.', 'error');
+        return;
+      }
+
+      appState.completedLevels[2] = true;
+      appState.disciplinePoints += 15;
+      if (appState.highestLevelUnlocked < 3) {
+        appState.highestLevelUnlocked = 3;
+      }
+      saveState();
+      showMessage('level2', 'Nice work. You completed Trading vs Investing Fork and earned 15 discipline points.', 'success');
+      setTimeout(() => showScreen('dashboard'), 1500);
+    }
+
+    // Level 3: Check quiz
+    let level3QuizChecked = false;
+    function checkLevel3Quiz() {
+      const q1 = document.querySelector('input[name="l3q1"]:checked');
+      const q2 = document.querySelector('input[name="l3q2"]:checked');
+      const q3 = document.querySelector('input[name="l3q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        document.getElementById('level3-quiz-feedback').innerHTML =
+          '<div class="info-message">Please answer all questions first. Take your time.</div>';
+        return;
+      }
+
+      const correct1 = q1.value === 'b';
+      const correct2 = q2.value === 'a';
+      const correct3 = q3.value === 'a';
+
+      const allCorrect = correct1 && correct2 && correct3;
+
+      if (allCorrect) {
+        document.getElementById('level3-quiz-feedback').innerHTML =
+          '<div class="success-message">Great job. You understand charts well.</div>';
+      } else {
+        document.getElementById('level3-quiz-feedback').innerHTML =
+          '<div class="info-message">It is fine to be unsure. Reading again can help. You can try the quiz again if you want to.</div>';
+      }
+
+      level3QuizChecked = true;
+    }
+
+    function completeLevel3() {
+      if (!level3QuizChecked) {
+        showMessage('level3', 'Please check your quiz answers first. Good job taking your time.', 'error');
+        return;
+      }
+
+      const reflection = document.getElementById('level3-reflection').value.trim();
+      if (reflection.length < 10) {
+        showMessage('level3', 'Please write at least one sentence before you save. Your thoughts matter.', 'error');
+        return;
+      }
+
+      appState.completedLevels[3] = true;
+      appState.disciplinePoints += 15;
+      if (appState.highestLevelUnlocked < 4) {
+        appState.highestLevelUnlocked = 4;
+      }
+      saveState();
+      showMessage('level3', 'Wonderful. You completed Chart City and earned 15 discipline points.', 'success');
+      setTimeout(() => showScreen('dashboard'), 1500);
+    }
+
+    // Level 4: Check quiz
+    let level4QuizChecked = false;
+    function checkLevel4Quiz() {
+      const q1 = document.querySelector('input[name="l4q1"]:checked');
+      const q2 = document.querySelector('input[name="l4q2"]:checked');
+      const q3 = document.querySelector('input[name="l4q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        document.getElementById('level4-quiz-feedback').innerHTML =
+          '<div class="info-message">Please answer all questions first. Take your time.</div>';
+        return;
+      }
+
+      const correct1 = q1.value === 'b';
+      const correct2 = q2.value === 'b';
+      const correct3 = q3.value === 'b';
+
+      const allCorrect = correct1 && correct2 && correct3;
+
+      if (allCorrect) {
+        document.getElementById('level4-quiz-feedback').innerHTML =
+          '<div class="success-message">Excellent. You understand risk protection.</div>';
+      } else {
+        document.getElementById('level4-quiz-feedback').innerHTML =
+          '<div class="info-message">It is fine to be unsure. Reading again can help. You can try the quiz again if you want to.</div>';
+      }
+
+      level4QuizChecked = true;
+    }
+
+    function completeLevel4() {
+      if (!level4QuizChecked) {
+        showMessage('level4', 'Please check your quiz answers first. Good job taking your time.', 'error');
+        return;
+      }
+
+      const reflection = document.getElementById('level4-reflection').value.trim();
+      if (reflection.length < 10) {
+        showMessage('level4', 'Please write at least one sentence before you save. Your thoughts matter.', 'error');
+        return;
+      }
+
+      appState.completedLevels[4] = true;
+      appState.disciplinePoints += 20;
+      if (appState.highestLevelUnlocked < 5) {
+        appState.highestLevelUnlocked = 5;
+      }
+      saveState();
+      showMessage('level4', 'Fantastic. You completed Risk Ridge and earned 20 discipline points.', 'success');
+      setTimeout(() => showScreen('dashboard'), 1500);
+    }
+
+    // Level 5: Account selection
+    let selectedAccount = null;
+    function selectAccount(accountType) {
+      selectedAccount = accountType;
+      document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+      const accountElement = document.querySelector('#account-' + accountType);
+      if (accountElement) {
+        accountElement.parentElement.classList.add('selected');
+      }
+
+      const summaryDiv = document.getElementById('account-summary');
+      const detailsDiv = document.getElementById('account-details');
+      summaryDiv.style.display = 'block';
+
+      if (accountType === 'small') {
+        detailsDiv.innerHTML = `
+          <p><strong>Balance:</strong> $500 training dollars</p>
+          <p><strong>Max trades per day:</strong> 2-3 trades</p>
+          <p><strong>Daily loss limit:</strong> Do not lose more than $25 (5 percent) in one day</p>
+          <p><strong>Best for:</strong> Learning rules and staying calm with small numbers</p>
+        `;
+      } else if (accountType === 'medium') {
+        detailsDiv.innerHTML = `
+          <p><strong>Balance:</strong> $5,000 training dollars</p>
+          <p><strong>Max trades per day:</strong> 3-5 trades</p>
+          <p><strong>Daily loss limit:</strong> Do not lose more than $150 (3 percent) in one day</p>
+          <p><strong>Best for:</strong> Students who have practiced with smaller accounts and want more flexibility</p>
+        `;
+      } else if (accountType === 'large') {
+        detailsDiv.innerHTML = `
+          <p><strong>Balance:</strong> $25,000 training dollars</p>
+          <p><strong>Max trades per day:</strong> 5-8 trades</p>
+          <p><strong>Daily loss limit:</strong> Do not lose more than $500 (2 percent) in one day</p>
+          <p><strong>Best for:</strong> Advanced practice with tested strategies and strong discipline</p>
+        `;
+      }
+    }
+
+    // Level 5: Check quiz
+    let level5QuizChecked = false;
+    function checkLevel5Quiz() {
+      const q1 = document.querySelector('input[name="l5q1"]:checked');
+      const q2 = document.querySelector('input[name="l5q2"]:checked');
+      const q3 = document.querySelector('input[name="l5q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        document.getElementById('level5-quiz-feedback').innerHTML =
+          '<div class="info-message">Please answer all questions first. Take your time.</div>';
+        return;
+      }
+
+      const correct1 = q1.value === 'a';
+      const correct2 = q2.value === 'a';
+      const correct3 = q3.value === 'b';
+
+      const allCorrect = correct1 && correct2 && correct3;
+
+      if (allCorrect) {
+        document.getElementById('level5-quiz-feedback').innerHTML =
+          '<div class="success-message">Great job. You understand training accounts.</div>';
+      } else {
+        document.getElementById('level5-quiz-feedback').innerHTML =
+          '<div class="info-message">It is fine to be unsure. Reading again can help. You can try the quiz again if you want to.</div>';
+      }
+
+      level5QuizChecked = true;
+    }
+
+    function completeLevel5() {
+      if (!selectedAccount) {
+        showMessage('level5', 'Please select a training account option first. Take your time choosing.', 'error');
+        return;
+      }
+
+      if (!level5QuizChecked) {
+        showMessage('level5', 'Please check your quiz answers first. Good job taking your time.', 'error');
+        return;
+      }
+
+      const reflection = document.getElementById('level5-reflection').value.trim();
+      if (reflection.length < 10) {
+        showMessage('level5', 'Please write at least one sentence before you save. Your thoughts matter.', 'error');
+        return;
+      }
+
+      appState.completedLevels[5] = true;
+      appState.disciplinePoints += 20;
+      if (appState.highestLevelUnlocked < 6) {
+        appState.highestLevelUnlocked = 6;
+      }
+      saveState();
+      showMessage('level5', 'Amazing. You completed Simulation Bay and earned 20 discipline points.', 'success');
+      setTimeout(() => showScreen('dashboard'), 1500);
+    }
+
+    // Level 6: Practice
+    function resetLevel6Practice() {
+      currentScenarioIndex = 0;
+      scenariosCompleted = 0;
+      calmStreak = 0;
+      practiceStarted = false;
+
+      document.getElementById('current-price').textContent = '$100.00';
+      document.getElementById('scenario-description').textContent = 'Click "Start Practice" to begin';
+      document.getElementById('practice-feedback').textContent = 'Make your choice above';
+      document.getElementById('scenario-counter').textContent = 'Scenarios completed: 0/3';
+      document.getElementById('streak-display').style.display = 'none';
+
+      document.getElementById('buy-btn').disabled = true;
+      document.getElementById('sell-btn').disabled = true;
+      document.getElementById('wait-btn').disabled = true;
+      document.getElementById('start-practice-btn').style.display = 'block';
+    }
+
+    function startPractice() {
+      practiceStarted = true;
+      document.getElementById('start-practice-btn').style.display = 'none';
+      document.getElementById('buy-btn').disabled = false;
+      document.getElementById('sell-btn').disabled = false;
+      document.getElementById('wait-btn').disabled = false;
+      document.getElementById('streak-display').style.display = 'block';
+      loadNextScenario();
+    }
+
+    function loadNextScenario() {
+      if (currentScenarioIndex >= practiceScenarios.length) {
+        currentScenarioIndex = 0;
+      }
+
+      const scenario = practiceScenarios[currentScenarioIndex];
+      document.getElementById('current-price').textContent = '$' + scenario.price.toFixed(2);
+      document.getElementById('scenario-description').textContent = scenario.description;
+      document.getElementById('practice-feedback').textContent = 'Make your choice above';
+    }
+
+    function makeChoice(choice) {
+      if (!practiceStarted) return;
+
+      const scenario = practiceScenarios[currentScenarioIndex];
+      const feedbackDiv = document.getElementById('practice-feedback');
+
+      let feedback = '';
+      let isCalmChoice = false;
+
+      if (choice === 'wait') {
+        feedback = 'Nice choice to wait. Not trading is also a choice, and often a smart one.';
+        isCalmChoice = true;
+      } else if (choice === 'buy') {
+        if (scenario.description.includes('moved up') || scenario.description.includes('jumped up')) {
+          feedback = 'You chose to buy after price moved up. That can be risky. Consider waiting for better spots.';
+          isCalmChoice = false;
+        } else {
+          feedback = 'You chose to buy. Make sure you have a plan and a stop loss.';
+          isCalmChoice = scenario.safeChoices.includes('buy');
+        }
+      } else if (choice === 'sell') {
+        if (scenario.description.includes('dropping') || scenario.description.includes('fell')) {
+          feedback = 'You chose to sell while price is falling. Timing matters.';
+          isCalmChoice = false;
+        } else {
+          feedback = 'You chose to sell. Make sure this matches your plan.';
+          isCalmChoice = scenario.safeChoices.includes('sell');
+        }
+      }
+
+      feedbackDiv.textContent = feedback;
+
+      if (isCalmChoice) {
+        calmStreak++;
+      } else {
+        calmStreak = 0;
+      }
+
+      document.getElementById('streak-display').textContent = 'Calm Choice Streak: ' + calmStreak;
+
+      scenariosCompleted++;
+      document.getElementById('scenario-counter').textContent =
+        'Scenarios completed: ' + Math.min(scenariosCompleted, 3) + '/3';
+
+      currentScenarioIndex++;
+
+      setTimeout(() => {
+        loadNextScenario();
+      }, 2000);
+    }
+
+    function completeLevel6() {
+      if (scenariosCompleted < 3) {
+        showMessage('level6', 'Please complete at least 3 practice scenarios first. Good job taking your time.', 'error');
+        return;
+      }
+
+      const journal = document.getElementById('level6-journal').value.trim();
+      if (journal.length < 10) {
+        showMessage('level6', 'Please write in your journal before you save. Your thoughts matter.', 'error');
+        return;
+      }
+
+      appState.completedLevels[6] = true;
+      appState.disciplinePoints += 25;
+      saveState();
+      showMessage('level6', 'Outstanding. You completed Replay Arena and earned 25 discipline points. You finished all levels.', 'success');
+      setTimeout(() => showScreen('dashboard'), 1500);
+    }
+
+    // Initialize app on load
+    loadState();
+    updateDashboard();
+  </script>
+ </body>
+</html>
